@@ -1,37 +1,22 @@
 import fetch from "node-fetch";
 global.fetch = fetch;
+require("dotenv").config();
+const secret = process.env.SECRET;
 
-import ghManager from "../src/githubManager";
+import GHManager from "../src/githubManager";
 
 describe("setup", () => {
-  it("should return isLogged false when no argument given", () => {
-    const ghm = new ghManager();
-
-    expect(ghm.isLogged).toBe(false);
-  });
-});
-
-describe("non authentication functions", () => {
-  it("should return profile information", async () => {
-    expect.assertions(1);
-
-    const ghm = new ghManager();
-    const pattern = require("./patterns/user.json");
-    // console.log(pattern);
-    try {
-      const profileInfo = await ghm.getUserProfileInfo("jchrobakk");
-    } catch(e) {
-      expect(profileInfo).toMatchObject({login: 'jchrobakk'});
+  it("should throw when no argument provided", () => {
+    function setup() {
+      new GHManager();
     }
-    // console.log(profileInfo);
-    // const result = compareKeys(pattern, profileInfo);
+    expect(setup).toThrow("No argument provided");
+  });
+  it("should throw when token is invalid", async () => {
+    function setup() {
+      new GHManager("dwqwqd");
+    }
 
-    
+    expect(setup).toThrow("Invalid token");
   });
 });
-
-function compareKeys(a, b) {
-  const aKeys = Object.keys(a).sort();
-  const bKeys = Object.keys(b).sort();
-  return JSON.stringify(aKeys) === JSON.stringify(bKeys);
-}
