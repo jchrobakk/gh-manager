@@ -26,7 +26,6 @@ export default class GHManager {
         Authorization: `token ${this.secret}`,
       },
     });
-
     return data.json();
   }
 }

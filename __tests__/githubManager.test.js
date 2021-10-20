@@ -28,4 +28,14 @@ describe("user informations", () => {
 
     expect(info).toMatchObject({ login: username });
   });
+
+  it("should return 'Not found' when user doesnt exist", async () => {
+    const gh = new GHManager(secret);
+
+    const username = "thisusernamedoesntexistloremipsum";
+
+    const result = await gh.getUserInfo(username);
+
+    expect(result.message).toBe("Not Found");
+  });
 });
