@@ -28,4 +28,13 @@ export default class GHManager {
     });
     return data.json();
   }
+
+  async getUserRepos(username) {
+    const data = await fetch(`${this.url}/users/${username}/repos`, {
+      headers: {
+        Authorization: `token ${this.secret}`,
+      },
+    });
+    return data.json();
+  }
 }
