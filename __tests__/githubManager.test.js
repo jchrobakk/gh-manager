@@ -111,3 +111,37 @@ describe("getRepoInfo()", () => {
     expect(result.message).toBe("Not Found");
   });
 });
+
+describe("getRepoIssues()", () => {
+  it("should return repo issues list", async () => {
+    const gh = new GHManager(secret);
+
+    const username = "facebook";
+    const repoName = "react";
+
+    const result = await gh.getRepoIssues(username, repoName);
+
+    expect(Array.isArray(result)).toBe(true);
+  });
+
+  it("should throw when no username or no repo name is provided", async () => {
+    const gh = new GHManager(secret);
+
+    try {
+      const result = await gh.getRepoIssues();
+    } catch (e) {
+      expect(e.message).toBe("No username or repo name provided");
+    }
+  });
+
+  it("should return 'Not found' when user or repo does not exist", async () => {
+    const gh = new GHManager(secret);
+
+    const username = "thisusernamedoesntexistloremipsum";
+    const repoName = "thisreponamedoesnotexistooloremipsum";
+
+    const result = await gh.getRepoIssues(username, repoName);
+
+    expect(result.message).toBe("Not Found");
+  });
+});
