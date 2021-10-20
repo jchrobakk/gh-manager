@@ -89,4 +89,25 @@ describe("getRepoInfo()", () => {
 
     expect(result).toMatchObject({ name: repoName });
   });
+
+  it("should throw when no username or no repo name is provided", async () => {
+    const gh = new GHManager(secret);
+
+    try {
+      const result = await gh.getRepoInfo();
+    } catch (e) {
+      expect(e.message).toBe("No username or repo name provided");
+    }
+  });
+
+  it("should return 'Not found' when user or repo does not exist", async () => {
+    const gh = new GHManager(secret);
+
+    const username = "thisusernamedoesntexistloremipsum";
+    const repoName = "thisreponamedoesnotexistooloremipsum";
+
+    const result = await gh.getRepoInfo(username, repoName);
+
+    expect(result.message).toBe("Not Found");
+  });
 });
