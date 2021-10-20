@@ -19,7 +19,7 @@ describe("setup", () => {
   });
 });
 
-describe("user informations", () => {
+describe("getUserInfo()", () => {
   it("should return profile info", async () => {
     const gh = new GHManager(secret);
 
@@ -37,5 +37,14 @@ describe("user informations", () => {
     const result = await gh.getUserInfo(username);
 
     expect(result.message).toBe("Not Found");
+  });
+});
+
+describe("getUserRepos()", () => {
+  it("should return repos list", async () => {
+    const gh = new GHManager(secret);
+    const info = await gh.getUserRepos("jchrobakk");
+
+    expect(Array.isArray(info)).toBe(true);
   });
 });
