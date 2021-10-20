@@ -13,9 +13,19 @@ describe("setup", () => {
     expect(setup).toThrow("No argument provided");
   });
   it("should throw when token is invalid", async () => {
-    const gh = new GHManager("dwqdwq");
-    const result = await gh.verifyToken();
+    const gh = new GHManager("ddd");
 
-    await expect(result.message).toBe("Invalid token");
+    await expect(gh.verifyToken()).rejects.toThrow("Invalid token");
+  });
+});
+
+describe("user informations", () => {
+  it("should return profile info", async () => {
+    const gh = new GHManager(secret);
+
+    const username = "jchrobakk";
+    const info = await gh.getUserInfo(username);
+
+    expect(info).toMatchObject({ login: username });
   });
 });
