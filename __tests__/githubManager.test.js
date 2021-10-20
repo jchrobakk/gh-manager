@@ -13,10 +13,9 @@ describe("setup", () => {
     expect(setup).toThrow("No argument provided");
   });
   it("should throw when token is invalid", async () => {
-    function setup() {
-      new GHManager("dwqwqd");
-    }
+    const gh = new GHManager("dwqdwq");
+    const result = await gh.verifyToken();
 
-    expect(setup).toThrow("Invalid token");
+    await expect(result.message).toBe("Invalid token");
   });
 });
