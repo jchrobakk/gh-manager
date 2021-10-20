@@ -41,4 +41,16 @@ export default class GHManager {
       throw new Error("No username provided");
     }
   }
+
+  async getRepoInfo(username, repoName) {
+    if (username && repoName) {
+      const data = await fetch(
+        `${this.url}/repos/${username}/${repoName}`,
+        this.options
+      );
+      return data.json();
+    } else {
+      throw new Error("No username or repo name provided");
+    }
+  }
 }
