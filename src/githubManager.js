@@ -4,14 +4,15 @@ export default class GHManager {
     if (!secret) throw new Error("No argument provided");
 
     this.secret = secret;
-  }
-
-  async verifyToken() {
-    const data = await fetch(`${this.url}/user`, {
+    this.options = {
       headers: {
         Authorization: `token ${this.secret}`,
       },
-    });
+    };
+  }
+
+  async verifyToken() {
+    const data = await fetch(`${this.url}/user`, this.options);
 
     if (data.status === 401) {
       throw new Error("Invalid token");
@@ -22,11 +23,7 @@ export default class GHManager {
 
   async getUserInfo(username) {
     if (username) {
-      const data = await fetch(`${this.url}/users/${username}`, {
-        headers: {
-          Authorization: `token ${this.secret}`,
-        },
-      });
+      const data = await fetch(`${this.url}/users/${username}`, this.options);
       return data.json();
     } else {
       throw new Error("No username provided");
@@ -35,11 +32,10 @@ export default class GHManager {
 
   async getUserRepos(username) {
     if (username) {
-      const data = await fetch(`${this.url}/users/${username}/repos`, {
-        headers: {
-          Authorization: `token ${this.secret}`,
-        },
-      });
+      const data = await fetch(
+        `${this.url}/users/${username}/repos`,
+        this.options
+      );
       return data.json();
     } else {
       throw new Error("No username provided");
