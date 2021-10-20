@@ -21,20 +21,28 @@ export default class GHManager {
   }
 
   async getUserInfo(username) {
-    const data = await fetch(`${this.url}/users/${username}`, {
-      headers: {
-        Authorization: `token ${this.secret}`,
-      },
-    });
-    return data.json();
+    if (username) {
+      const data = await fetch(`${this.url}/users/${username}`, {
+        headers: {
+          Authorization: `token ${this.secret}`,
+        },
+      });
+      return data.json();
+    } else {
+      throw new Error("No username provided");
+    }
   }
 
   async getUserRepos(username) {
-    const data = await fetch(`${this.url}/users/${username}/repos`, {
-      headers: {
-        Authorization: `token ${this.secret}`,
-      },
-    });
-    return data.json();
+    if (username) {
+      const data = await fetch(`${this.url}/users/${username}/repos`, {
+        headers: {
+          Authorization: `token ${this.secret}`,
+        },
+      });
+      return data.json();
+    } else {
+      throw new Error("No username provided");
+    }
   }
 }
