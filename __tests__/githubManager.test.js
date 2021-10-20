@@ -78,3 +78,15 @@ describe("getUserRepos()", () => {
     expect(result.message).toBe("Not Found");
   });
 });
+
+describe("getRepoInfo()", () => {
+  it("should return info about repo", async () => {
+    const gh = new GHManager(secret);
+    const username = "jchrobakk";
+    const repoName = "practice-js-testing";
+
+    const result = await gh.getRepoInfo(username, repoName);
+
+    expect(result).toMatchObject({ name: repoName });
+  });
+});
