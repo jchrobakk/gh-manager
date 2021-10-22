@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 // importuję odpowiedni plugin
 module.exports = {
   entry: {
-    entry: "./src/githubManager.js",
+    entry: "./src/app.js",
   },
   // definiuje pliki wejściowe
   // posiadające swoje identyfikatory [chunks]

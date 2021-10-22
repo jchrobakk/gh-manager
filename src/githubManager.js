@@ -16,8 +16,6 @@ export default class GHManager {
 
     if (data.status === 401) {
       throw new Error("Invalid token");
-    } else {
-      this.secret = secret;
     }
   }
 
@@ -63,6 +61,25 @@ export default class GHManager {
       return data.json();
     } else {
       throw new Error("No username or repo name provided");
+    }
+  }
+
+  setBio(bio) {
+    if (bio) {
+      const data = {
+        bio: bio,
+      };
+      return fetch(`${this.url}/user`, {
+        body: JSON.stringify(data),
+        headers: {
+          Accept: "application/vnd.github.v3+json",
+          Authorization: `token ${this.secret}`,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        method: "PATCH",
+      });
+    } else {
+      throw new Error("No bio provided");
     }
   }
 }

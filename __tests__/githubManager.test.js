@@ -145,3 +145,27 @@ describe("getRepoIssues()", () => {
     expect(result.message).toBe("Not Found");
   });
 });
+
+describe("setBio()", () => {
+  it("should change profile bio", async () => {
+    const ghm = new GHManager(secret);
+
+    const newBio = "GHM test11";
+
+    await ghm.setBio(newBio);
+
+    const profileInfo = await ghm.getUserInfo("jchrobakk");
+
+    expect(profileInfo.bio).toBe(newBio);
+  });
+
+  it("should throw when no bio provided", async () => {
+    const gh = new GHManager(secret);
+
+    try {
+      await gh.setBio();
+    } catch (e) {
+      expect(e.message).toBe("No bio provided");
+    }
+  });
+});
