@@ -151,10 +151,11 @@ describe("setBio()", () => {
     const ghm = new GHManager(secret);
 
     const newBio = "GHM test11";
+    const username = "jchrobakk";
 
     await ghm.setBio(newBio);
 
-    const profileInfo = await ghm.getUserInfo("jchrobakk");
+    const profileInfo = await ghm.getUserInfo(username);
 
     expect(profileInfo.bio).toBe(newBio);
   });
@@ -167,5 +168,19 @@ describe("setBio()", () => {
     } catch (e) {
       expect(e.message).toBe("No bio provided");
     }
+  });
+});
+
+describe("toggleHireableStatus()", () => {
+  it("should change hireable status", async () => {
+    const ghm = new GHManager(secret);
+
+    const currInfo = await ghm._getCurrProfile();
+
+    await ghm.toggleHireableStatus();
+
+    const newInfo = await ghm._getCurrProfile();
+
+    expect(newInfo.hireable).toBe(!currInfo.hireable);
   });
 });

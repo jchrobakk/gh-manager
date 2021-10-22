@@ -82,4 +82,26 @@ export default class GHManager {
       throw new Error("No bio provided");
     }
   }
+
+  async toggleHireableStatus() {
+    const status = await this._getCurrProfile();
+    console.log(status);
+    const data = {
+      hireable: !status.hireable,
+    };
+    console.log(data);
+    return fetch(`${this.url}/user`, {
+      body: JSON.stringify(data),
+      headers: {
+        Accept: "application/vnd.github.v3+json",
+        Authorization: `token ${this.secret}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      method: "PATCH",
+    });
+  }
+
+  _getCurrProfile() {
+    return fetch(`${this.url}/user`, this.options).then((resp) => resp.json());
+  }
 }
