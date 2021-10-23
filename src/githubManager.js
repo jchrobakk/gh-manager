@@ -4,15 +4,21 @@ export default class GHManager {
     if (!secret) throw new Error("No argument provided");
 
     this.secret = secret;
-    this.options = {
+    this.getOptions = {
       headers: {
         Authorization: `token ${this.secret}`,
       },
     };
+
+    this.patchHeaders = {
+      Accept: "application/vnd.github.v3+json",
+      Authorization: `token ${this.secret}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    };
   }
 
   async verifyToken() {
-    const data = await fetch(`${this.url}/user`, this.options);
+    const data = await fetch(`${this.url}/user`, this.getOptions);
 
     if (data.status === 401) {
       throw new Error("Invalid token");
@@ -21,7 +27,10 @@ export default class GHManager {
 
   async getUserInfo(username) {
     if (username) {
-      const data = await fetch(`${this.url}/users/${username}`, this.options);
+      const data = await fetch(
+        `${this.url}/users/${username}`,
+        this.getOptions
+      );
       return data.json();
     } else {
       throw new Error("No username provided");
@@ -32,7 +41,7 @@ export default class GHManager {
     if (username) {
       const data = await fetch(
         `${this.url}/users/${username}/repos`,
-        this.options
+        this.getOptions
       );
       return data.json();
     } else {
@@ -44,7 +53,7 @@ export default class GHManager {
     if (username && repoName) {
       const data = await fetch(
         `${this.url}/repos/${username}/${repoName}`,
-        this.options
+        this.getOptions
       );
       return data.json();
     } else {
@@ -56,7 +65,7 @@ export default class GHManager {
     if (username && repoName) {
       const data = await fetch(
         `${this.url}/repos/${username}/${repoName}/issues`,
-        this.options
+        this.getOptions
       );
       return data.json();
     } else {
@@ -71,11 +80,7 @@ export default class GHManager {
       };
       return fetch(`${this.url}/user`, {
         body: JSON.stringify(data),
-        headers: {
-          Accept: "application/vnd.github.v3+json",
-          Authorization: `token ${this.secret}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+        headers: this.patchHeaders,
         method: "PATCH",
       });
     } else {
@@ -98,16 +103,14 @@ export default class GHManager {
 
     return fetch(`${this.url}/user`, {
       body: JSON.stringify(data),
-      headers: {
-        Accept: "application/vnd.github.v3+json",
-        Authorization: `token ${this.secret}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+      headers: this.patchHeaders,
       method: "PATCH",
     });
   }
 
   _getCurrProfile() {
-    return fetch(`${this.url}/user`, this.options).then((resp) => resp.json());
+    return fetch(`${this.url}/user`, this.getOptions).then((resp) =>
+      resp.json()
+    );
   }
 }
