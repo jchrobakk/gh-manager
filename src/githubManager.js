@@ -85,11 +85,17 @@ export default class GHManager {
 
   async toggleHireableStatus() {
     const status = await this._getCurrProfile();
-    console.log(status);
-    const data = {
-      hireable: !status.hireable,
-    };
-    console.log(data);
+    let data;
+    if (status.hireable === true) {
+      data = {
+        hireable: null,
+      };
+    } else {
+      data = {
+        hireable: true,
+      };
+    }
+
     return fetch(`${this.url}/user`, {
       body: JSON.stringify(data),
       headers: {

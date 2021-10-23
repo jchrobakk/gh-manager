@@ -181,6 +181,10 @@ describe("toggleHireableStatus()", () => {
 
     const newInfo = await ghm._getCurrProfile();
 
-    expect(newInfo.hireable).toBe(!currInfo.hireable);
+    if (currInfo.hireable === true) {
+      expect(newInfo.hireable).toBe(null);
+    } else {
+      expect(newInfo.hireable).toBe(true);
+    }
   });
 });
