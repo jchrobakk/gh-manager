@@ -60,7 +60,7 @@ Returns a list of errors, of the given repository. The same arguments must be gi
 
 Methods that allow you to edit your profile.
 
-### .toggleHireableStatus()
+#### .toggleHireableStatus()
 
 Toggles the 'hireable' status. For example:
 
