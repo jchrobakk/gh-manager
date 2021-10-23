@@ -60,3 +60,15 @@ Zwraca listę błędów, danego repozytoria. Należy podać takie same argumenty
 ### Edytowanie profilu
 
 Metody, które pozwalają na edycję profilu.
+
+### .toggleHireableStatus()
+
+Przełącza status 'hireable'. Przykładowo:
+
+    ghm.toggleHireableStatus()
+
+#### .setBio()
+
+Zmienia opis profilu na taki, który został podany w argumencie. Przykładowo:
+
+    ghm.setBio('Hello world!'
